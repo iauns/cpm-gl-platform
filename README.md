@@ -21,3 +21,9 @@ To use the following variables, set them in your CMakeLists.txt before calling
 
 * `GL_PLATFORM_NO_DEBUGGING` - Disables the debug macros `GL` and `GL_CHECK`.
 
+Planned Options
+---------------
+
+* `USE_CORE_PROFILE_3`
+* `USE_CORE_PROFILE_4`
+
