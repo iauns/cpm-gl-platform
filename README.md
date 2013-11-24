@@ -1,7 +1,9 @@
 cpm-gl-platform
 ===============
 
-Includes platform specific files for OpenGL and OpenGL ES. Header only and
+[![Build Status](https://travis-ci.org/iauns/cpm-gl-platform.png)](https://travis-ci.org/iauns/cpm-gl-platform)
+
+Includes OpenGL and OpenGL ES platform specific headers. Header only and
 contains several helpful debugging macros. These macros are automatically
 disabled in release builds but you can also disable their definition using
 `GL_PLATFORM_NO_DEBUGGING`. See below.
