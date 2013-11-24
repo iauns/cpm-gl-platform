@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
-project(lodepng_test)
+project(gl_platform_test)
 
 #------------------------------------------------------------------------------
 # Required CPM Setup - See: http://github.com/iauns/cpm
@@ -22,7 +22,7 @@ endif()
 include(${CPM_DIR}/CPM.cmake)
 
 # ++ MODULE: GL Platform
-CPM_AddModule("lodepng"
+CPM_AddModule("gl_platform"
   SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 # ++ MODULE: GL Context creation
@@ -31,6 +31,11 @@ CPM_AddModule("gl_context"
   GIT_TAG "v1.0.0")
 
 CPM_Finish()
+
+#-----------------------------------------------------------------------
+# Configure OpenGL
+#-----------------------------------------------------------------------
+find_package(OpenGL REQUIRED)
 
 #-----------------------------------------------------------------------
 # Setup strict warnings and werror
@@ -55,6 +60,8 @@ file(GLOB Sources
 # Setup executable
 #-----------------------------------------------------------------------
 
-add_executable(loadpng_test ${Sources})
-target_link_libraries(loadpng_test ${CPM_LIBRARIES})
+add_executable(gl_platform_test ${Sources})
+target_link_libraries(gl_platform_test
+  ${CPM_LIBRARIES}
+  ${OPENGL_LIBRARIES})
 

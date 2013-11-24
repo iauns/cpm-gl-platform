@@ -9,6 +9,9 @@ fi
 set -e
 
 pushd ./bin > /dev/null
-  cmake ..
+  cmake -DUSE_OS_MESA=ON ..
   make
 popd
+
+./bin/gl_platform_test
+
