@@ -60,6 +60,11 @@ file(GLOB Sources
 # Setup executable
 #-----------------------------------------------------------------------
 
+# Make sure we don't link against OpenGL libraries if using OSMesa
+if (USE_OS_MESA)
+  set(OPENGL_LIBRARIES)
+endif()
+
 add_executable(gl_platform_test ${Sources})
 target_link_libraries(gl_platform_test
   ${CPM_LIBRARIES}
