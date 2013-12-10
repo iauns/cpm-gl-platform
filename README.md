@@ -11,9 +11,16 @@ disabled in release builds but you can also disable their definition using
 Usage
 -----
 
+Simply include the following:
+
 ```c++
 #include <gl-platform/GLPlatform.hpp>
 ```
+
+and OpenGL headers for your platform will be included in your project. On all
+systems but Windows, GLEW is not used and the system's OpenGL headers are
+imported. GLEW is used on Windows platforms where the system OpenGL headers
+have not been updated in a very long time.
 
 Options
 -------
@@ -28,4 +35,5 @@ Planned Options
 
 * `USE_CORE_PROFILE_3`
 * `USE_CORE_PROFILE_4`
+* GLEW for Windows.
 
