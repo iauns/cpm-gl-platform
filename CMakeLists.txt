@@ -33,7 +33,7 @@ if (WIN32)
   # Include GLEW cpm module.
   CPM_AddModule("glew"
     GIT_REPOSITORY "https://github.com/iauns/cpm-glew"
-    GIT_TAG "1.0.0"
+    GIT_TAG "1.0.1"
     EXPORT_MODULE TRUE)
 endif()
 
