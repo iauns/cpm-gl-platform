@@ -29,6 +29,13 @@ else()
   include(${CPM_DIR}/CPM.cmake)
 endif()
 
+if (WIN32)
+  # Include GLEW cpm module.
+  CPM_AddModule("glew"
+    GIT_REPOSITORY "https://github.com/iauns/cpm-glew"
+    GIT_TAG "1.0.0")
+endif()
+
 # This call will ensure all include directories and definitions are present
 # in the target. These correspond to the modules that we added above.
 CPM_InitModule(${CPM_MODULE_NAME})
@@ -41,4 +48,24 @@ endif (CMAKE_BUILD_TYPE MATCHES DEBUG)
 if ((DEFINED GL_PLATFORM_NO_DEBUGGING) AND (GL_PLATFORM_NO_DEBUGGING))
   CPM_ExportAdditionalDefinition("-DGL_PLATFORM_NO_DEBUGGING")
 endif()
+
+#-----------------------------------------------------------------------
+# Source
+#-----------------------------------------------------------------------
+
+# Globbing has some downsides, but the advantages outweigh the
+# disadvantages.
+file (GLOB Sources
+  "gl-platform/*.cpp"
+  "gl-platform/*.hpp"
+  )
+
+#-----------------------------------------------------------------------
+# Library setup
+#-----------------------------------------------------------------------
+
+# Build the library.
+add_library(${CPM_LIB_TARGET_NAME} ${Sources})
+target_link_libraries(${CPM_LIB_TARGET_NAME} ${CPM_LIBRARIES})
+
 

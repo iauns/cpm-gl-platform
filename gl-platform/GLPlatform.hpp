@@ -1,22 +1,27 @@
-/// \author James Hughes
-/// \date   November 2013
-
 #ifndef IAUNS_GL_PLATFORM_HPP
 #define IAUNS_GL_PLATFORM_HPP
+
+namespace CPM_GL_PLATFORM_NS {
+
+/// This function is only required on Windows (due to GLEW -- unless you alerady
+/// call GLEW init somewhere else) and it only calls glewInit(). It's best to
+/// call it on all platforms to maintain consistency. But calling it is *not*
+/// mandatory.
+void glPlatformInit();
+
+} // namespace CPM_GL_PLATFORM_NS
 
 #if defined(USE_CORE_PROFILE_3) && defined(USE_CORE_PROFILE_4)
   #error Both USE_CORE_PROFILE_3 and USE_CORE_PROFILE_4 are defined. Ensure that only one is defined.
 #endif
 
-/// \todo Add webgl and emscriptem.
+/// \todo Add webgl.
 
 // See: http://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
 // and, http://sourceforge.net/p/predef/wiki/OperatingSystems/
 // We provide these definitions in ADDITION to cmake directives to cover 
 // extensions that need OpenGL system headers and whatnot.
-#ifdef _WIN64
-  #define GL_PLATFORM_USING_WIN
-#elif _WIN32
+#ifdef _WIN32
   #define GL_PLATFORM_USING_WIN
 #elif __APPLE__
   #include "TargetConditionals.h"
@@ -65,7 +70,7 @@
 
   #define NOMINMAX
   #include <Windows.h>
-  #include <glew/include/GL/glew.h>
+  #include <GL/glew.h>
   #include <GL/gl.h>
 #elif defined(GL_PLATFORM_USING_LINUX)
 
@@ -147,9 +152,5 @@
 #endif
 
 #endif // #ifndef GL_PLATFORM_NO_DEBUGGING
-
-namespace CPM_GL_PLATFORM_NS {
-
-} // namespace CPM_GL_PLATFORM_NS
 
 #endif 
