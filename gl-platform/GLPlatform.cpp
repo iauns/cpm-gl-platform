@@ -2,6 +2,8 @@
 #include "GLPlatform.hpp"
 #include <stdexcept>
 
+namespace CPM_GL_PLATFORM_NS {
+
 void glPlatformInit()
 {
 #ifdef GL_PLATFORM_USING_WIN
@@ -12,4 +14,6 @@ void glPlatformInit()
   }
 #endif
 }
+
+} // namespace CPM_GL_PLATFORM_NS
 
