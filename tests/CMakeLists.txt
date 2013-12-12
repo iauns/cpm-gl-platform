@@ -28,7 +28,7 @@ CPM_AddModule("gl_platform"
 # ++ MODULE: GL Context creation
 CPM_AddModule("gl_context"
   GIT_REPOSITORY "https://github.com/iauns/cpm-gl-batch-context.git"
-  GIT_TAG "1.1.0")
+  GIT_TAG "1.2.0")
 
 CPM_Finish()
 
