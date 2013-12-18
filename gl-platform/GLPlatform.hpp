@@ -15,97 +15,61 @@ void glPlatformInit();
   #error Both USE_CORE_PROFILE_3 and USE_CORE_PROFILE_4 are defined. Ensure that only one is defined.
 #endif
 
-/// \todo Add webgl.
-
 // See: http://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
 // and, http://sourceforge.net/p/predef/wiki/OperatingSystems/
-// We provide these definitions in ADDITION to cmake directives to cover 
-// extensions that need OpenGL system headers and whatnot.
-#ifdef _WIN32
-  #define GL_PLATFORM_USING_WIN
+
+// Note, for platforms that you can't uniquely detect through preprocessor
+// definitions, use build directives.
+#if _WIN32
+  #define NOMINMAX
+  #include <Windows.h>
+  #include <GL/glew.h>
+  #include <GL/gl.h>
+#elif defined EMSCRIPTEN
+  #include <glfw.h>
 #elif __APPLE__
   #include "TargetConditionals.h"
+
   #if TARGET_IPHONE_SIMULATOR
     #define GL_PLATFORM_USING_IOS
-    #define USE_OPENGL_ES_2
   #elif TARGET_OS_IPHONE
     #define GL_PLATFORM_USING_IOS
-    #define USE_OPENGL_ES_2
   #elif TARGET_OS_MAC
     #define GL_PLATFORM_USING_OSX
   #else
-    #error Unsupported mac platform.
+    #error Unsupported Apple platform.
+  #endif
+
+  #if defined GL_PLATFORM_USING_IOS
+    #define USE_OPENGL_ES
+    #import <OpenGLES/ES2/gl.h>
+    #import <OpenGLES/ES2/glext.h>
+  #elif defined GL_PLATFORM_USING_OSX
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glext.h>
+    #if defined(USE_CORE_PROFILE_3) || defined(USE_CORE_PROFILE_4)
+      // Currently mac places gl4 specific definitions in the gl3 header. Change
+      // when they update this.
+      #include <OpenGL/gl3.h> 
+    #endif
+  #else
+    #error Apple GLPlatform logic error
   #endif
 #elif __ANDROID__
-  #define GL_PLATFORM_USING_ANDROID
-  #define USE_OPENGL_ES_2
+  #define USE_OPENGL_ES
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
 #elif __linux
-  #define GL_PLATFORM_USING_LINUX
+  #define GL_GLEXT_PROTOTYPES
+  #include <GL/gl.h>
+  #include <GL/glext.h>
+  #include <GL/glx.h>
 #elif __unix // all unices not caught above
   #error General unix not supported - try defining GL_PLATFORM_USING_LINUX and disabling this error.
 #elif __posix
   #error General posix not supported - try defining GL_PLATFORM_USING_LINUX and disabling this error.
 #else
   #error Unknown unsupported platform.
-#endif
-
-// OpenGL headers
-#if defined(GL_PLATFORM_USING_OSX)
-  #if defined(GL_PLATFORM_USING_WIN) || defined(GL_PLATFORM_USING_LINUX) || defined(GL_PLATFORM_USING_IOS) || defined(GL_PLATFORM_USING_ANDROID)
-    #error Multiple platforms defined.
-  #endif
-
-  #include <OpenGL/gl.h>
-  #include <OpenGL/glext.h>
-  #if defined(USE_CORE_PROFILE_3) || defined(USE_CORE_PROFILE_4)
-    // Currently mac places gl4 specific definitions in the gl3 header. Change
-    // when they update this.
-    #include <OpenGL/gl3.h> 
-  #endif
-#elif defined(GL_PLATFORM_USING_WIN)
-
-  #if defined(GL_PLATFORM_USING_OSX) || defined(GL_PLATFORM_USING_LINUX) || defined(GL_PLATFORM_USING_IOS) || defined(GL_PLATFORM_USING_ANDROID)
-    #error Multiple platforms defined.
-  #endif
-
-  #define NOMINMAX
-  #include <Windows.h>
-  #include <GL/glew.h>
-  #include <GL/gl.h>
-#elif defined(GL_PLATFORM_USING_LINUX)
-
-  #if defined(GL_PLATFORM_USING_OSX) || defined(GL_PLATFORM_USING_WIN) || defined(GL_PLATFORM_USING_IOS) || defined(GL_PLATFORM_USING_ANDROID)
-    #error Multiple platforms defined.
-  #endif
-
-  #define GL_GLEXT_PROTOTYPES
-  #include <GL/gl.h>
-  #include <GL/glext.h>
-  #include <GL/glx.h>
-#elif defined(GL_PLATFORM_USING_IOS)
-
-  #if defined(GL_PLATFORM_USING_OSX) || defined(GL_PLATFORM_USING_WIN) || defined(GL_PLATFORM_USING_LINUX) || defined(GL_PLATFORM_USING_ANDROID)
-    #error Multiple platforms defined.
-  #endif
-
-  #import <OpenGLES/ES2/gl.h>
-  #import <OpenGLES/ES2/glext.h>
-#elif defined(GL_PLATFORM_USING_ANDROID)
-
-  #if defined(GL_PLATFORM_USING_OSX) || defined(GL_PLATFORM_USING_WIN) || defined(GL_PLATFORM_USING_LINUX) || defined(GL_PLATFORM_USING_IOS)
-    #error Multiple platforms defined.
-  #endif
-
-  #include <GLES2/gl2.h>
-  #include <GLES2/gl2ext.h>
-#else
-  /// \todo Look into emscriptem.
-  #error OpenGL headers not defined for this platform.
-#endif
-
-// Utility definitions for non-ES OpenGL implementations.
-#ifndef USE_OPENGL_ES_2
-  #define GL_HALF_FLOAT_OES GL_FLOAT
 #endif
 
 
