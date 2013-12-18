@@ -26,6 +26,7 @@ void glPlatformInit();
   #include <GL/glew.h>
   #include <GL/gl.h>
 #elif defined EMSCRIPTEN
+  #define GL_GLEXT_PROTOTYPES
   #include <GL/glfw.h>
   #include <GL/glext.h>
 #elif __APPLE__
