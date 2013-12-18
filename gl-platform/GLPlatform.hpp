@@ -27,6 +27,7 @@ void glPlatformInit();
   #include <GL/gl.h>
 #elif defined EMSCRIPTEN
   #include <GL/glfw.h>
+  #include <GL/glext.h>
 #elif __APPLE__
   #include "TargetConditionals.h"
 
