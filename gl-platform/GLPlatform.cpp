@@ -6,7 +6,7 @@ namespace CPM_GL_PLATFORM_NS {
 
 void glPlatformInit()
 {
-#ifdef GL_PLATFORM_USING_WIN
+#ifdef WIN32
   GLenum err = glewInit();
   if (GLEW_OK != err)
   {
