@@ -47,12 +47,13 @@ void glPlatformInit();
     #import <OpenGLES/ES2/gl.h>
     #import <OpenGLES/ES2/glext.h>
   #elif defined GL_PLATFORM_USING_OSX
-    #include <OpenGL/gl.h>
-    #include <OpenGL/glext.h>
-    #if defined(USE_CORE_PROFILE_3) || defined(USE_CORE_PROFILE_4)
+    #if defined(USE_CORE_PROFILE_3) || defined(USE_CORE_PROFILE_4) || defined(ION_GLSL4)
       // Currently mac places gl4 specific definitions in the gl3 header. Change
       // when they update this.
       #include <OpenGL/gl3.h> 
+    #else
+      #include <OpenGL/gl.h>
+      #include <OpenGL/glext.h>
     #endif
   #else
     #error Apple GLPlatform logic error
